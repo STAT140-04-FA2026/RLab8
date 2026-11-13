@@ -1,0 +1,170 @@
+---
+title: 'R Lab 8: Multiple Linear Regression'
+subtitle: 'Plus Practice with ioslides'
+author: "YOUR NAME HERE"
+date: "2026-11-13"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+## load libraries and data here
+library(ggplot2)
+library(openintro)
+# library(olsrr)
+```
+
+## Lab overview
+
+Today we are going to do the following:
+
+(1) go through fitting the multiple linear regression model for the baby birth weight data in R;
+(2) create the plots from the class notes to examine conditions for multiple linear regression in R;
+(4) take a first pass at creating a slide deck in RMarkdown (via ioslides)
+
+# Multiple linear regression (MLR) in R
+
+## Fitting a MLR model {.smaller}
+
+The advantage of creating your presentation within R Markdown is that you have everything you need in one place - changes to code and plots will automatically update when you knit your document (just like in other R labs).
+
+The code below fits the full model for the baby birth weight data we discussed in class. Additional variables are separated by a '+' sign.
+
+```{r tidy=TRUE}
+m_full <- lm(bwt ~ gestation + age + parity + smoke + height + weight,
+             data = babies)
+```
+
+## MLR model fit summary {.smaller}
+
+<!-- THE FOLLOWING WILL NOT PRINT ON YOUR SLIDES BUT YOU SHOULD READ IT: On this slide we are just printing the summary output for the full model that you fit in the previous R chunk. Notice that sometimes the output is too long to fit nicely on the slide. -->
+
+```{r}
+## print model summary 
+summary(m_full)
+```
+
+
+## Model without age
+
+Fit a linear model using the lm() function that does not include age, as indicated by backward selection (practice problems yesterday), and assign it to the object m_no_age (same procedure as m_full above)
+
+```{r}
+## fit linear model
+
+
+```
+
+```{r echo = FALSE}
+## run summary on m_no_age
+## this time, we have included include = FALSE in the options so it will not print any of this on a slide
+
+
+```
+
+# Checking model conditions
+
+```{r include=FALSE}
+## get all the information you need to make diagnostic plots together in one data frame
+## this approach generally works even with other data sets
+
+## pulls the data for all explanatory variables
+m_no_age_fit <- m_no_age$model
+
+## creates another column of residuals
+m_no_age_fit$residuals <- m_no_age$residuals
+## creates another column of fitted values
+m_no_age_fit$fitted = m_no_age$fitted.values
+## creates another column for order of collection
+m_no_age_fit$order <- 1:nrow(m_no_age_fit)
+
+## take a look at the first few rows of m_no_age_fit
+head(m_no_age_fit)
+```
+
+## Checking for outliers
+
+Create a histogram of residuals using ggplot for baby birth weight. Use the residuals from m_no_age_fit created above. You need to modify your x-axis label to say "Residuals" and your y-axis label to say "Count". **Are there any notable outliers?**
+
+```{r include=FALSE}
+## We add include=FALSE to print only your plot, rather than your code and your plot.
+
+```
+
+## Residuals versus model fit
+
+Example code to use for remainder of plots
+
+```{r echo=FALSE, fig.align='center', out.width='90%', out.height='90%'}
+# create residuals vs fitted plot and assign to res_plot
+
+res_plot <- ggplot(data = m_no_age_fit, aes(x=fitted, y=residuals)) + 
+  geom_point(color="lightblue") + 
+  theme_minimal() + 
+  geom_hline(yintercept = 0, linetype = "dashed", linewidth = 1) + 
+  xlab("Fitted Values") + 
+  ylab("Residuals")
+res_plot
+```
+
+## Residuals against each predictor (order)
+
+Create a scatter plot of residuals versus order using a similar approach to the previous slide. 
+
+```{r echo=FALSE, fig.align='center', out.width='90%', out.height='90%'}
+
+```
+
+## Residuals against each predictor (parity)
+
+Create a scatter plot of residuals versus parity. 
+
+```{r echo=FALSE, fig.align='center', out.width='90%', out.height='90%'}
+
+```
+
+## Residuals against each predictor (smoke)
+
+Create a scatter plot of residuals versus smoke. 
+
+```{r echo=FALSE, fig.align='center', out.width='90%', out.height='90%'}
+
+```
+
+## Residuals against each predictor (gestation)
+
+Create a scatter plot of residuals versus gestation. 
+
+```{r echo=FALSE, fig.align='center', out.width='90%', out.height='90%'}
+
+```
+
+## Residuals against each predictor (height)
+
+Create a scatter plot of residuals versus height. 
+
+```{r echo=FALSE, fig.align='center', out.width='90%', out.height='90%'}
+
+```
+
+## Residuals against each predictor (weight)
+
+Create a scatter plot of residuals versus weight. 
+
+```{r echo=FALSE, fig.align='center', out.width='90%', out.height='90%'}
+
+```
+
+## Discussion
+
+What, if any, concerns do you have about the conditions being satisfied?
+
+## If you have time...
+
+<!-- If you saved each of your plots above as an object (e.g. res_plot), you can use these in the function ggarrange() from the package egg to display multiple plots on the same slide. If you have extra time, try to do this! You can check out the R documentation for ggarrange() using ?ggarrange.-->
+
+```{r echo=FALSE, fig.align='center', out.width='90%', out.height='90%'}
+
+```
+
